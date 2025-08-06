@@ -1,0 +1,18 @@
+# Python cache
+__pycache__/
+*.pyc
+
+# Virtual env
+.env/
+.venv/
+env/
+venv/
+
+# Data files
+*.pkl
+*.json
+*.csv
+
+# IDE settings
+.vscode/
+.idea/
