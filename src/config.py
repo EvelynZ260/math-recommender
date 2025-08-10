@@ -1,22 +1,30 @@
 import os
 
-# --- File Paths ---
+# --- Paths ---
 BASE_DIR = os.path.dirname(os.path.dirname(os.path.abspath(__file__)))
+DATA_DIR = os.path.join(BASE_DIR, 'data')
+os.makedirs(DATA_DIR, exist_ok=True)
 
-# Path to store the processed DataFrame with question vectors for the new dataset
-PROCESSED_DATA_PATH = os.path.join(BASE_DIR, 'data', 'scienceqa_with_vectors.pkl')
+# Assets
+PROCESSED_DATA_PATH = os.path.join(DATA_DIR, 'mysql_qa_with_vectors.pkl')  # 更名避免与旧 scienceqa 混淆
+FAISS_INDEX_PATH    = os.path.join(DATA_DIR, 'mysql_qa.faiss')
+EMB_MATRIX_PATH     = os.path.join(DATA_DIR, 'mysql_qa_embeddings.npy')
 
-
-# --- Model & Dataset Configuration ---
-# Hugging Face dataset name
-HF_DATASET_NAME = 'derek-thomas/ScienceQA'
-
-# Sentence-BERT model for generating embeddings
-SBERT_MODEL_NAME = 'shibing624/text2vec-base-chinese' # This is a Chinese model, let's switch to a multilingual or English one
-# SBERT_MODEL_NAME = 'all-MiniLM-L6-v2' # A good general-purpose English model
+# --- Embedding Model (used only in offline build) ---
 SBERT_MODEL_NAME = 'sentence-transformers/all-MiniLM-L6-v2'
 
+# --- MySQL ---
+MYSQL_USER = os.getenv("DB_USER", "root")
+MYSQL_PASS = os.getenv("DB_PASS", "123456")
+MYSQL_HOST = os.getenv("DB_HOST", "127.0.0.1")
+MYSQL_PORT = int(os.getenv("DB_PORT", "3306"))
+MYSQL_DB   = "collaborative_practice_platform"
+MYSQL_VIEW = "qa_view"
 
-# --- Recommendation Parameters ---
-# Number of recommendations to generate
-TOP_K_RECOMMENDATIONS = 5
+# --- Recommendation Params ---
+TOP_K_RECOMMENDATIONS     = 5
+RECENT_WRONG_ANSWERS_COUNT= 10
+FAISS_SEARCH_CANDIDATES   = 200
+
+# --- Java endpoint to forward the results ---
+JAVA_ENDPOINT = "http://localhost:8080/api/getRecommend"

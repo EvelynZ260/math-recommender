@@ -1,7 +1,12 @@
 pandas
-torch
-sentence-transformers
 scikit-learn
 tqdm
 datasets
 flask
+torch
+sentence-transformers
+faiss-cpu
+requests
+langchain
+langchain-community
+dashscope
