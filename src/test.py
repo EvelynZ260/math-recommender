@@ -12,9 +12,9 @@ def simulate_user_activity() -> pd.DataFrame:
     列名兼容 QuestionID + IsCorrect。
     """
     data = {
-        'UserID':     [1]*12,
-        'QuestionID': [101,102,103,104,105,106,107,108,109,110, 111,112],
-        'IsCorrect':  [1,0,1,0,0,1,0,0,1,0,  0,1]  # 混合，最近的在最后
+        'UserID':     [1]*10,
+        'QuestionID': [62,71,93,587,626,10,122,185,11,29],
+        'IsCorrect':  [0,0,0,0,0,0,0,0,0,0]  # 混合，最近的在最后
     }
     return pd.DataFrame(data)
 
