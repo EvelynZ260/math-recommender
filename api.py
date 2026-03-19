@@ -6,6 +6,7 @@ import requests
 
 from src.recommendation_engine import Recommender
 from src.preprocess import build_question_assets
+from src.agent import get_or_create_agent
 from src import config
 
 logging.basicConfig(level=logging.INFO)
@@ -93,6 +94,24 @@ def get_recommendations():
 
     # 5) 返回给调用方
     return jsonify({"questionIds": recommended_ids}), 200
+
+@app.route('/chat', methods=['POST'])
+def chat():
+    """多轮对话接口，替代静态 /recommend。"""
+    payload = request.get_json(force=True, silent=True) or {}
+    session_id = payload.get("session_id", "default")
+    message    = payload.get("message", "")
+
+    if not message:
+        return jsonify({"error": "message 不能为空"}), 400
+
+    try:
+        agent = get_or_create_agent(session_id)
+        result = agent.invoke({"input": message})
+        return jsonify({"reply": result["output"]}), 200
+    except Exception as e:
+        logging.error(f"Agent error: {e}", exc_info=True)
+        return jsonify({"error": str(e)}), 500
 
 if __name__ == '__main__':
     # 0.0.0.0 便于其他容器/主机访问；端口 5001 避开 Java 的 8080

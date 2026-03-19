@@ -26,5 +26,9 @@ TOP_K_RECOMMENDATIONS     = 5
 RECENT_WRONG_ANSWERS_COUNT= 10
 FAISS_SEARCH_CANDIDATES   = 200
 
+# 追加到现有 config.py 末尾
+DASHSCOPE_API_KEY = os.getenv("DASHSCOPE_API_KEY", "")
+AGENT_MEMORY_WINDOW = 10   # 保留最近对话轮数
+
 # --- Java endpoint to forward the results ---
 JAVA_ENDPOINT = "http://localhost:8080/api/getRecommend"
